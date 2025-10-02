@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Legend OS – Modular AI Agents</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background-color: #0f0f0f;
+      color: #f4f4f5;
+      font-family: 'Inter', sans-serif;
+    }
+    .typewriter-text::after {
+      content: '|';
+      animation: blink 1s steps(2) infinite;
+      color: #00f2ff;
+    }
+    @keyframes blink {
+      to {
+        visibility: hidden;
+      }
+    }
+    .agent-card {
+      background-color: #1f1f1f;
+      padding: 1.5rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+    .agent-card:hover {
+      transform: scale(1.03);
+      background-color: #0f889d;
+    }
+    .ascii-pulse {
+      background: radial-gradient(ellipse at center, rgba(0,255,255,0.05) 0%, transparent 60%);
+    }
+  </style>
+</head>
+<body class="text-white overflow-x-hidden scroll-smooth">
+
+  <!-- 💥 HERO SECTION -->
+  <section class="w-full h-screen flex items-center justify-center bg-black ascii-pulse relative">
+    <div class="text-center p-6 max-w-3xl">
+      <h1 class="text-4xl md:text-6xl font-bold text-cyan-400 mb-6 animate-pulse">
+        <span class="typewriter-text" id="typewriter">One AI. Infinite Profiles. All Systems Go.</span>
+      </h1>
+      <p class="text-gray-300 mb-8 text-lg md:text-xl">
+        A modular AI agent OS for developers, operators, CEOs, and startups.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="#use-cases" class="bg-cyan-500 hover:bg-cyan-400 text-black px-5 py-2 rounded">Explore Use Cases</a>
+        <a href="#start" class="border border-cyan-500 px-5 py-2 rounded hover:bg-cyan-600">Start for Free</a>
+        <a href="#briefing" class="text-cyan-400 underline hover:text-white">Schedule a Founders Briefing</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 🚀 VALUE PROPOSITIONS -->
+  <section id="value" class="py-24 px-6 bg-[#141414]">
+    <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+      <div>
+        <h2 class="text-3xl md:text-4xl font-bold mb-6">Why Legend OS?</h2>
+        <p class="text-gray-300 text-lg">Build once, deploy anywhere. Prompt-to-product orchestration powers modular models the way your team works best.</p>
+      </div>
+      <div class="grid sm:grid-cols-2 gap-6">
+        <div class="bg-[#1f1f1f] p-6 rounded hover:scale-105 duration-300">
+          <h3 class="font-semibold text-cyan-300 mb-2">💡 LLM Agnostic</h3>
+          <p class="text-gray-400 text-sm">Use GPT, Claude, Mistral, Gemini</p>
+        </div>
+        <div class="bg-[#1f1f1f] p-6 rounded hover:scale-105 duration-300">
+          <h3 class="font-semibold text-cyan-300 mb-2">⚙️ Prompt-to-Product</h3>
+          <p class="text-gray-400 text-sm">Ship apps, docs, videos and more</p>
+        </div>
+        <div class="bg-[#1f1f1f] p-6 rounded hover:scale-105 duration-300">
+          <h3 class="font-semibold text-cyan-300 mb-2">🔌 Works Everywhere</h3>
+          <p class="text-gray-400 text-sm">CLI, GUI, API, Docker-native</p>
+        </div>
+        <div class="bg-[#1f1f1f] p-6 rounded hover:scale-105 duration-300">
+          <h3 class="font-semibold text-cyan-300 mb-2">👤 Profile-Based Agents</h3>
+          <p class="text-gray-400 text-sm">Each knows your role and goals</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 👤 AGENT PROFILES -->
+  <section id="profiles" class="py-24 px-6 bg-black">
+    <div class="max-w-6xl mx-auto text-center">
+      <h2 class="text-3xl font-bold mb-12 text-cyan-400">Meet Your Agent Profiles</h2>
+      <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+
+        <div onclick="openCLIModal('Dev Agent')" class="agent-card group">
+          <span class="text-xl font-bold text-white group-hover:text-cyan-400">👨‍💻 Dev Agent</span>
+          <p class="text-gray-400 text-sm mt-1">Writes code, deploys apps, handles CI.</p>
+        </div>
+
+        <div onclick="openCLIModal('Executive Agent')" class="agent-card group">
+          <span class="text-xl font-bold text-white group-hover:text-cyan-400">💼 Executive Agent</span>
+          <p class="text-gray-400 text-sm mt-1">Creates docs, memos, investor logs.</p>
+        </div>
+
+        <div onclick="openCLIModal('BPO Agent')" class="agent-card group">
+          <span class="text-xl font-bold text-white group-hover:text-cyan-400">📠 BPO Agent</span>
+          <p class="text-gray-400 text-sm mt-1">Emails, summaries, task logs.</p>
+        </div>
+
+        <div onclick="openCLIModal('Student Agent')" class="agent-card group">
+          <span class="text-xl font-bold text-white group-hover:text-cyan-400">🎓 Student Agent</span>
+          <p class="text-gray-400 text-sm mt-1">Researches, studies, submits work.</p>
+        </div>
+
+        <div onclick="openCLIModal('CAD Agent')" class="agent-card group">
+          <span class="text-xl font-bold text-white group-hover:text-cyan-400">🏗 CAD/Engineering</span>
+          <p class="text-gray-400 text-sm mt-1">Sketch, render, iterate product lines.</p>
+        </div>
+
+        <div onclick="openCLIModal('Startup Agent')" class="agent-card group">
+          <span class="text-xl font-bold text-white group-hover:text-cyan-400">🚀 Startup Stack Agent</span>
+          <p class="text-gray-400 text-sm mt-1">SEO, funnel, LaunchOps and more.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 🧪 USE CASE PANELS -->
+  <section id="use-cases" class="py-24 px-6 bg-[#141414]">
+    <div class="max-w-6xl mx-auto text-center">
+      <h2 class="text-3xl font-bold mb-6">What Can You Do With Legend OS?</h2>
+      <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-6 mt-10">
+        <div class="bg-black border border-cyan-400 p-6 rounded hover:scale-105 transition">
+          <h3 class="font-semibold">🚀 Ship an MVP in a Day</h3>
+          <p class="text-sm text-gray-400 mt-2">Use prebuilt agents to scaffold code > deploy live.</p>
+        </div>
+        <div class="bg-black border border-cyan-400 p-6 rounded hover:scale-105 transition">
+          <h3 class="font-semibold">🧾 Journal Like a CEO</h3>
+          <p class="text-sm text-gray-400 mt-2">Log ideas or decisions, auto-convert into insight plans.</p>
+        </div>
+        <div class="bg-black border border-cyan-400 p-6 rounded hover:scale-105 transition">
+          <h3 class="font-semibold">📥 CRM → Reports</h3>
+          <p class="text-sm text-gray-400 mt-2">Transform emails into reports + next steps.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 📬 FINAL CTA -->
+  <section id="start" class="px-6 py-24 bg-black text-center">
+    <h2 class="text-4xl font-bold text-cyan-400 mb-4">“You think it. We'll build it.”</h2>
+    <p class="mb-6 text-gray-400">One command away from your roadmap. Activate your agent.</p>
+    <div class="flex justify-center gap-4 flex-wrap">
+      <a href="" class="bg-cyan-500 px-5 py-2 font-semibold text-black rounded hover:bg-cyan-400">Start Free</a>
+      <a href="" class="bg-gray-800 border border-cyan-500 px-5 py-2 rounded hover:bg-cyan-600">Demo Live Agent</a>
+      <a href="" class="text-cyan-300 underline">Talk to Product Strategist</a>
+    </div>
+    <pre class="bg-[#1a1a1a] text-left mt-6 text-gray-300 inline-block px-6 py-4 rounded overflow-auto whitespace-nowrap">
+<code>&gt; install Legend_OS && launch profile --dev</code>
+    </pre>
+  </section>
+
+  <!-- 🖥 CLI MODAL -->
+  <div id="cliModal" class="fixed inset-0 bg-black bg-opacity-80 z-50 hidden items-center justify-center">
+    <div class="w-full max-w-2xl mx-auto p-4 bg-[#111] rounded shadow-xl relative">
+      <button onclick="closeCLIModal()" class="absolute top-2 right-3 text-white hover:text-red-400 text-lg">✕</button>
+      <h3 class="text-cyan-400 text-xl font-bold mb-2" id="cliTitle">Agent CLI</h3>
+      <div class="bg-black text-green-400 font-mono p-4 h-64 overflow-y-auto text-sm rounded border border-green-500" id="cliOutput">
+        <p>> initializing agent...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🔌 JavaScript: Typewriter & CLI -->
+  <script>
+    const headlines = [
+      "One AI. Infinite Profiles. All Systems Go.",
+      "Deploy a dev agent in seconds.",
+      "Render → Write → Ship with command-line clarity."
+    ];
+    let hIndex = 0;
+    let charIndex = 0;
+    function typeEffect() {
+      const element = document.getElementById("typewriter");
+      const text = headlines[hIndex];
+      if (charIndex < text.length) {
+        element.textContent = text.substring(0, charIndex + 1);
+        charIndex++;
+        setTimeout(typeEffect, 60);
+      } else {
+        setTimeout(() => {
+          charIndex = 0;
+          hIndex = (hIndex + 1) % headlines.length;
+          typeEffect();
+        }, 3000);
+      }
+    }
+    window.onload = typeEffect;
+
+    const cliCommands = {
+      "Dev Agent": [
+        "> launch build-pipeline",
+        "> deploy test-app",
+        "> integrate api-auth",
+        "> run postman suite",
+      ],
+      "Executive Agent": [
+        "> write investor memo",
+        "> update roadmap",
+        "> summarize board notes",
+        "> submit weekly log",
+      ],
+      "BPO Agent": [
+        "> summarize 40 emails",
+        "> extract CRM from PDF",
+        "> generate bulk reply set",
+        "> timestamp calls",
+      ],
+      "Student Agent": [
+        "> parse syllabus",
+        "> rewrite draft paper",
+        "> build flashcards",
+        "> generate MLA citations",
+      ],
+      "CAD Agent": [
+        "> render prototype gear",
+        "> export DXF",
+        "> embed linked constraints",
+        "> reorganize BOM",
+      ],
+      "Startup Agent": [
+        "> run funnel inference",
+        "> ship About Page",
+        "> scrape top keywords",
+        "> deploy metrics feed",
+      ]
+    };
+
+    let cliIndex = 0;
+    let currentAgent = "";
+
+    function openCLIModal(agent) {
+      currentAgent = agent;
+      document.getElementById("cliTitle").innerText = agent;
+      document.getElementById("cliOutput").innerHTML = `<p>> initializing ${agent.toLowerCase()}...</p>`;
+      document.getElementById("cliModal").classList.remove("hidden");
+      cliIndex = 0;
+      setTimeout(typeCLICommand, 800);
+    }
+
+    function closeCLIModal() {
+      document.getElementById("cliModal").classList.add("hidden");
+      document.getElementById("cliOutput").innerHTML = "";
+    }
+
+    function typeCLICommand() {
+      if (cliIndex >= cliCommands[currentAgent].length) return;
+      const out = document.getElementById("cliOutput");
+      const cmd = cliCommands[currentAgent][cliIndex];
+      const line = document.createElement("p");
+      out.appendChild(line);
+      let char = 0;
+      function typeChar() {
+        if (char < cmd.length) {
+          line.textContent += cmd.charAt(char);
+          char++;
+          setTimeout(typeChar, 35);
+        } else {
+          cliIndex++;
+          setTimeout(typeCLICommand, 500);
+          out.scrollTop = out.scrollHeight;
+        }
+      }
+      typeChar();
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeCLIModal();
+    });
+
+    window.addEventListener('click', (e) => {
+      if (e.target.id === "cliModal") closeCLIModal();
+    });
+  </script>
+
+</body>
+</html>
