@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Legend OS - Adaptive Infrastructure for Work, Learning &amp; Creation</title>
+    <meta name="description"
+        content="Legend OS: Modular AI agents for developers, executives, startups, students &amp; BPOs. LLM-agnostic, prompt-to-product AI platform." />
+    <style>
+        /* Reset & Base */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #0F0F0F;
+            color: #E0E0E0;
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        a {
+            color: #38BDF8;
+            /* Tailwind sky-400 */
+            text-decoration: none;
+        }
+
+        a:hover,
+        a:focus {
+            text-decoration: underline;
+        }
+
+        button {
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Containers */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Utility */
+        .hidden {
+            display: none !important;
+        }
+
+        /* Flex */
+        .flex {
+            display: flex;
+        }
+
+        .flex-col {
+            flex-direction: column;
+        }
+
+        .flex-row {
+            flex-direction: row;
+        }
+
+        .items-center {
+            align-items: center;
+        }
+
+        .justify-center {
+            justify-content: center;
+        }
+
+        .justify-between {
+            justify-content: space-between;
+        }
+
+        .gap-4 {
+            gap: 1rem;
+        }
+
+        /* Headings */
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-weight: 700;
+            color: #E0E0E0;
+            margin: 0;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+        }
+
+        h2 {
+            font-size: 2rem;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+        }
+
+        /* Paragraph */
+        p {
+            margin: 1rem 0;
+            color: #AAA;
+        }
+
+        /* Buttons */
+        .btn {
+            background-color: #14B8A6;
+            /* teal-500 */
+            color: #fff;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.375rem;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+            border: none;
+            box-shadow: 0 4px 8px rgb(20 184 166 / 0.3);
+        }
+
+        .btn:hover,
+        .btn:focus {
+            background-color: #0D9488;
+            /* teal-600 */
+            outline: none;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            border: 2px solid #38BDF8;
+            color: #38BDF8;
+        }
+
+        .btn-secondary:hover,
+        .btn-secondary:focus {
+            background-color: #38BDF8;
+            color: #000;
+            outline: none;
+        }
+
+        /* Hero section */
+        #hero {
+            min-height: 100vh;
+            /* Full viewport height */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            text-align: center;
+            padding: 0 1rem;
+            background: radial-gradient(circle at center, #111827 0%, #0F0F0F 90%);
+        }
+
+        #hero h1 {
+            font-weight: 900;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            letter-spacing: 0.04em;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+        }
+
+        #hero p {
+            font-size: 1.25rem;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        #hero .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        /* Animated CLI prompt */
+        .cli-box {
+            background: #111827;
+            border-radius: 8px;
+            max-width: 650px;
+            margin: 2rem auto 0;
+            padding: 1.5rem 2rem;
+            font-family: 'JetBrains Mono', monospace;
+            color: #38BDF8;
+            box-shadow: 0 0 20px #38BDF8;
+            line-height: 1.4;
+            min-height: 5rem;
+            user-select: none;
+        }
+
+        .cli-prompt {
+            display: inline-block;
+            margin-right: 0.5rem;
+            color: #0D9488;
+        }
+
+        .cli-text {
+            display: inline-block;
+        }
+
+        /* Agent spheres carousel */
+        .agent-carousel {
+            display: flex;
+            margin: 3rem 0;
+            overflow-x: auto;
+            padding-bottom: 1rem;
+            scrollbar-width: none;
+            /* Firefox */
+            flex-direction: row;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .agent-carousel::-webkit-scrollbar {
+            display: none;
+        }
+
+        .agent-card {
+            background: #1F2937;
+            border-radius: 14px;
+            width: 230px;
+            min-width: 230px;
+            padding: 1.5rem 1rem 2rem;
+            margin-right: 1rem;
+            box-shadow: 0 0 10px #14B8A6aa;
+            color: #E0E0E0;
+            cursor: pointer;
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+            flex: 0 0 230px;
+        }
+
+        .agent-card:hover,
+        .agent-card:focus {
+            box-shadow: 0 0 20px #14B8A6ff;
+            transform: translateY(-6px);
+            outline: none;
+        }
+
+        .agent-icon {
+            width: 64px;
+            height: 64px;
+            margin-bottom: 0.75rem;
+            fill: #14B8A6;
+        }
+
+        .agent-name {
+            font-weight: 700;
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .agent-desc {
+            font-size: 0.9rem;
+            color: #9CA3AF;
+        }
+
+        /* Use case cards */
+        #use-cases {
+            background: #111827;
+            padding: 3rem 1rem;
+        }
+
+        .use-case-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .use-case-card {
+            background: #1F2937;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 3px 7px #00000099;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .use-case-card:hover,
+        .use-case-card:focus {
+            background-color: #14B8A6;
+            color: #000;
+            outline: none;
+        }
+
+        .use-case-title {
+            font-weight: 700;
+            font-size: 1.15rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .use-case-subtitle {
+            font-size: 0.9rem;
+            margin-bottom: auto;
+        }
+
+        .use-case-cta {
+            margin-top: 1rem;
+            font-weight: 700;
+            color: inherit;
+            text-align: right;
+            user-select: none;
+        }
+
+        /* Tech Architecture */
+        #technology {
+            padding: 3rem 1rem;
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        #technology h2 {
+            margin-bottom: 1.5rem;
+        }
+
+        .arch-diagram {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Testimonials */
+        #testimonials {
+            background: #111827;
+            padding: 3rem 1rem;
+        }
+
+        .testimonial-grid {
+            max-width: 900px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .testimonial-card {
+            background: #1F2937;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: inset 0 0 10px #00000088;
+            position: relative;
+            font-style: italic;
+        }
+
+        .testimonial-card::before {
+            content: "“";
+            font-size: 3rem;
+            line-height: 0;
+            position: absolute;
+            left: 1rem;
+            top: 1rem;
+            color: #14B8A6;
+        }
+
+        .testimonial-text {
+            color: #E0E0E0;
+        }
+
+        .testimonial-author {
+            text-align: right;
+            font-weight: 600;
+            margin-top: 1rem;
+            color: #38BDF8;
+        }
+
+        /* Pricing */
+        #pricing {
+            padding: 3rem 1rem;
+            max-width: 900px;
+            margin: 0 auto 4rem;
+        }
+
+        #pricing h2 {
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .pricing-role-selector {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .role-button {
+            background: transparent;
+            border: 2px solid #14B8A6;
+            color: #14B8A6;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            user-select: none;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .role-button.active,
+        .role-button:hover {
+            background-color: #14B8A6;
+            color: #000;
+            outline: none;
+        }
+
+        .pricing-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .pricing-card {
+            background: #1F2937;
+            padding: 2rem 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 0 15px #14B8A6aa;
+            color: #E0E0E0;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .pricing-plan {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .pricing-cost {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            font-weight: 900;
+            color: #38BDF8;
+        }
+
+        .pricing-details {
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            min-height: 60px;
+            white-space: pre-line;
+            text-align: left;
+        }
+
+        /* Startup CTA strip */
+        #startup-cta {
+            background-color: #14B8A6;
+            color: #000;
+            padding: 3rem 1rem;
+            text-align: center;
+            border-radius: 12px;
+            margin: 4rem 1rem 6rem;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        #startup-cta h2 {
+            margin-bottom: 1rem;
+        }
+
+        #startup-cta p {
+            font-weight: 600;
+            margin-bottom: 2rem;
+        }
+
+        #startup-cta .btn {
+            background-color: #0D9488;
+            color: #fff;
+            font-weight: 700;
+        }
+
+        #startup-cta .btn:hover {
+            background-color: #0B7666;
+        }
+
+        /* Footer */
+        footer {
+            background: #111827;
+            color: #6B7280;
+            text-align: center;
+            padding: 2rem 1rem;
+            font-size: 0.9rem;
+            user-select: none;
+        }
+
+        /* Founder Spotlight */
+        #founder-spotlight {
+            background: #1F2937;
+            max-width: 900px;
+            margin: 4rem auto 6rem;
+            padding: 2rem;
+            border-radius: 12px;
+            color: #14B8A6;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        #founder-spotlight h3 {
+            margin-top: 0;
+            font-weight: 900;
+            font-size: 1.5rem;
+        }
+
+        #founder-spotlight p {
+            margin: 1rem 0 0 0;
+            line-height: 1.4;
+            color: #AAA;
+        }
+
+        #founder-spotlight a {
+            color: #38BDF8;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+
+            #hero p {
+                font-size: 1.1rem;
+            }
+
+            .pricing-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .use-case-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Hero Section -->
+    <section id="hero" role="banner" aria-label="Legend OS landing hero section">
+        <div class="container">
+            <h1>One AI. Infinite Profiles. All Systems Go.</h1>
+            <p>A modular AI Legend OS for developers, operators, CEOs, and startups. LLM-agnostic, role-centric,
+                prompt-to-product execution platform.</p>
+            <div class="btn-group" role="region" aria-label="Primary call to action buttons">
+                <button class="btn" type="button" onclick="scrollToSection('agent-profiles')">Explore Profiles</button>
+                <button class="btn btn-secondary" type="button" onclick="scrollToSection('use-cases')">Start for
+                    Free</button>
+                <button class="btn btn-secondary" type="button" onclick="scrollToSection('founder-spotlight')">Schedule
+                    a Founders Briefing</button>
+            </div>
+            <div class="cli-box" aria-live="polite" aria-atomic="true"
+                aria-label="Animated command line interface sample">
+                <span class="cli-prompt">&gt;</span><span id="cli-text" class="cli-text">render CAD asset batch →
+                    Complete.</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Legend OS -->
+    <section id="why-Legend OS" class="container" aria-label="Core value proposition">
+        <h2>Why Legend OS?</h2>
+        <div class="flex flex-wrap gap-6" style="margin-top:1.5rem; justify-content: center;">
+            <div style="max-width:260px; text-align:center;">
+                <svg class="agent-icon" aria-hidden="true" focusable="false" viewBox="0 0 64 64">
+                    <circle cx="32" cy="32" r="30" stroke="#14B8A6" stroke-width="2" fill="none"></circle>
+                    <path d="M16 36h32M16 28h32M24 20h16" stroke="#14B8A6" stroke-width="2" stroke-linecap="round">
+                    </path>
+                </svg>
+                <h3>LLM Agnostic</h3>
+                <p>Seamlessly switch between GPT, Claude, Mistral, Gemini and more.</p>
+            </div>
+            <div style="max-width:260px; text-align:center;">
+                <svg class="agent-icon" aria-hidden="true" focusable="false" viewBox="0 0 64 64">
+                    <path d="M16 52l16-40 16 40H16z" stroke="#14B8A6" stroke-width="2" fill="none"></path>
+                </svg>
+                <h3>Prompt-to-Product</h3>
+                <p>Turn ideas into apps, documents, and workflows automatically.</p>
+            </div>
+            <div style="max-width:260px; text-align:center;">
+                <svg class="agent-icon" aria-hidden="true" focusable="false" viewBox="0 0 64 64">
+                    <rect x="14" y="14" width="36" height="36" rx="6" ry="6" stroke="#14B8A6" stroke-width="2"
+                        fill="none"></rect>
+                </svg>
+                <h3>Works Everywhere</h3>
+                <p>CLI, API, Docker and GUI integrations on your terms.</p>
+            </div>
+            <div style="max-width:260px; text-align:center;">
+                <svg class="agent-icon" aria-hidden="true" focusable="false" viewBox="0 0 64 64">
+                    <circle cx="32" cy="32" r="14" stroke="#14B8A6" stroke-width="2" fill="none"></circle>
+                    <path d="M32 18v28M18 32h28" stroke="#14B8A6" stroke-width="2" stroke-linecap="round"></path>
+                </svg>
+                <h3>Profile-based Execution</h3>
+                <p>Agents know your role and work accordingly for maximum impact.</p>
+            </div>
+            <div style="max-width:260px; text-align:center;">
+                <svg class="agent-icon" aria-hidden="true" focusable="false" viewBox="0 0 64 64">
+                    <path d="M8 32h48M32 8v48" stroke="#14B8A6" stroke-width="2" stroke-linecap="round"></path>
+                </svg>
+                <h3>No Lock-in</h3>
+                <p>Self-host or run in Docker for ultimate control and privacy.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Agent Profiles -->
+    <section id="agent-profiles" aria-label="AI agent profiles" class="container" style="margin-top: 4rem;">
+        <h2>Custom Intelligence by Role</h2>
+        <div class="agent-carousel" role="list">
+            <div tabindex="0" class="agent-card" role="listitem"
+                aria-label="Developer Agent profile. Enables prompt-to-code workflows and packaging.">
+                <svg class="agent-icon" aria-hidden="true" focusable="false" viewBox="0 0 64 64">
+                    <path d="M8 16h48v32H8z" stroke="#14B8A6" stroke-width="2" fill="none"></path>
+                    <path d="M16 24h32M16 32h32M16 40h24" stroke="#14B8A6" stroke-width="2" stroke-linecap="round">
+                    </path>
+                </svg>
+                <div class="agent-name">Dev Agent</div>
+                <div class="agent-desc">Automate coding, test, and packaging from prompt to build.</div>
+            </div>
+            <div tabindex="0" class="agent-card" role="listitem"
+                aria-label="Executive Agent profile. Enables journaling, directive execution, and reporting.">
+                <svg class="agent-icon" aria-hidden="true" focusable="false" viewBox="0 0 64 64">
+                    <circle cx="32" cy="20" r="8" stroke="#14B8A6" stroke-width="2" fill="none"></circle>
+                    <path d="M12 52c0-11 40-11 40 0" stroke="#14B8A6" stroke-width="2" fill="none"></path>
+                </svg>
+                <div class="agent-name">Exec Agent</div>
+                <div class="agent-desc">Journaling, decision logs, company control from natural language.</div>
+            </div>
+            <div tabindex="0" class="agent-card" role="listitem"
+                aria-label="BPO Agent profile. Automates repetitive operational tasks.">
+                <svg class="agent-icon" aria-hidden="true" focusable="false" viewBox="0 0 64 64">
+                    <rect x="16" y="16" width="32" height="32" stroke="#14B8A6" stroke-width="2" fill="none"></rect>
+                    <path d="M24 24h16M24 32h16M24 40h8" stroke="#14B8A6" stroke-width="2" stroke-linecap="round">
+                    </path>
+                </svg>
+                <div class="agent-name">BPO Agent</div>
+                <div class="agent-desc">Replace manual entry, routing, and basic tasks with smart automation.</div>
+            </div>
+            <div tabindex="0" class="agent-card" role="listitem"
+                aria-label="Student Agent profile. Supports learning with transcript verification and study aids.">
+                <svg class="agent-icon" aria-hidden="true" focusable="false" viewBox="0 0 64 64">
+                    <path d="M16 20h32v24H16z" stroke="#14B8A6" stroke-width="2" fill="none"></path>
+                    <path d="M20 22h24M20 30h24M20 38h16" stroke="#14B8A6" stroke-width="2" stroke-linecap="round">
+                    </path>
+                </svg>
+                <div class="agent-name">Student Agent</div>
+                <div class="agent-desc">Guided learning with transcript logs to validate comprehension.</div>
+            </div>
+            <div tabindex="0" class="agent-card" role="listitem"
+                aria-label="Engineering Agent profile. Integrates with CAD, Blender, and CLI tools.">
+                <svg class="agent-icon" aria-hidden="true" focusable="false" viewBox="0 0 64 64">
+                    <path d="M8 32h48M32 8v48" stroke="#14B8A6" stroke-width="2" stroke-linecap="round"></path>
+                </svg>
+                <div class="agent-name">Engineering Agent</div>
+                <div class="agent-desc">Automate CAD scripting and 3D workflows across tools and APIs.</div>
+            </div>
+            <div tabindex="0" class="agent-card" role="listitem"
+                aria-label="Startup Stack profile. Comprehensive multi-agent platform for startup teams.">
+                <svg class="agent-icon" aria-hidden="true" focusable="false" viewBox="0 0 64 64">
+                    <circle cx="32" cy="32" r="12" stroke="#14B8A6" stroke-width="2" fill="none"></circle>
+                    <path d="M20 32h24M32 20v24" stroke="#14B8A6" stroke-width="2" stroke-linecap="round"></path>
+                </svg>
+                <div class="agent-name">Startup Stack</div>
+                <div class="agent-desc">Complete multi-agent suite covering PM, Dev, Ops, and Launch specialties.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Use Case Cards -->
+    <section id="use-cases" aria-label="Legend OS use cases" class="use-cases">
+        <h2 style="text-align:center; color:#E0E0E0; margin-bottom:2rem;">Use Cases</h2>
+        <div class="use-case-grid">
+            <div tabindex="0" class="use-case-card" role="button" aria-pressed="false"
+                aria-label="Use case: Build and deploy an MVP app in 30 minutes">
+                <div class="use-case-title">Build and Deploy an MVP in 30 Minutes</div>
+                <div class="use-case-subtitle">Speed through ideation, coding, testing, and packaging with AI-assisted
+                    workflows.</div>
+                <div class="use-case-cta">Try This Workflow →</div>
+            </div>
+            <div tabindex="0" class="use-case-card" role="button" aria-pressed="false"
+                aria-label="Use case: CEO journal and team execution automation">
+                <div class="use-case-title">Journal as CEO, Act as a Team</div>
+                <div class="use-case-subtitle">Maintain decision logs and automate task execution effortlessly.</div>
+                <div class="use-case-cta">Try This Workflow →</div>
+            </div>
+            <div tabindex="0" class="use-case-card" role="button" aria-pressed="false"
+                aria-label="Use case: Automate payroll email generation from CRM">
+                <div class="use-case-title">Automate Payroll Emails From CRM</div>
+                <div class="use-case-subtitle">Reduce manual data entry and improve accuracy with AI agents.</div>
+                <div class="use-case-cta">Try This Workflow →</div>
+            </div>
+            <div tabindex="0" class="use-case-card" role="button" aria-pressed="false"
+                aria-label="Use case: Student study with transcript validation">
+                <div class="use-case-title">Study Smart—Show Your Reasoning</div>
+                <div class="use-case-subtitle">Submit AI-assisted work with verified learning transcripts.</div>
+                <div class="use-case-cta">Try This Workflow →</div>
+            </div>
+            <div tabindex="0" class="use-case-card" role="button" aria-pressed="false"
+                aria-label="Use case: Rapidly build 3D models with CAD scripting">
+                <div class="use-case-title">Rapid 3D Models with CAD Scripting</div>
+                <div class="use-case-subtitle">Automate repetitive design tasks across multiple engineering tools.</div>
+                <div class="use-case-cta">Try This Workflow →</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technology Architecture -->
+    <section id="technology" class="container" aria-label="Legend OS technology and architecture"
+        style="margin-top: 4rem; text-align: center;">
+        <h2>Built for the Future. Driven by What Works Now.</h2>
+        <img src="https://via.placeholder.com/800x400?text=Legend OS+Architecture+Diagram"
+            alt="Diagram illustrating Legend OS modular architecture with Interface, Agent, Model, and API layers"
+            class="arch-diagram" />
+        <p style="margin-top: 1rem; max-width: 700px; margin-left: auto; margin-right: auto; color: #A0AEC0;">
+            Profiles built from logical scaffolds. Plug in your favorite model. Run your workflows and export your work
+            seamlessly with composable, modular agents.
+        </p>
+    </section>
+
+    <!-- Testimonials -->
+    <section id="testimonials" class="testimonials" aria-label="Testimonials from Legend OS users"
+        style="margin-top: 4rem;">
+        <h2 style="text-align:center; margin-bottom: 2rem; color:#E0E0E0;">What Our Users Say</h2>
+        <div class="testimonial-grid">
+            <blockquote class="testimonial-card">
+                <p class="testimonial-text">Legend OS saved our team over 40 hours in pre-launch. The multi-agent system
+                    truly transformed how we work.</p>
+                <footer class="testimonial-author">— Taylor M., Startup Founder</footer>
+            </blockquote>
+            <blockquote class="testimonial-card">
+                <p class="testimonial-text">Journaling to insight in minutes—Legend OS replaced my entire productivity
+                    stack.</p>
+                <footer class="testimonial-author">— Aisha K., CEO</footer>
+            </blockquote>
+            <blockquote class="testimonial-card">
+                <p class="testimonial-text">The developer profile is a game changer. Shipping APKs and EXEs with minimal
+                    hassle.</p>
+                <footer class="testimonial-author">— Raj P., Indie Developer</footer>
+            </blockquote>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="pricing" aria-label="Legend OS pricing plans"
+        style="margin-top: 4rem; margin-bottom: 4rem;">
+        <h2>Agent Power. Aligned to Your Scale.</h2>
+        <div class="pricing-role-selector" role="tablist" aria-label="Select audience role to view pricing">
+            <button class="role-button active" role="tab" aria-selected="true" aria-controls="pricing-dev" id="tab-dev"
+                tabindex="0" onclick="selectRole('dev')">Developer</button>
+            <button class="role-button" role="tab" aria-selected="false" aria-controls="pricing-exec" id="tab-exec"
+                tabindex="-1" onclick="selectRole('exec')">Executive</button>
+            <button class="role-button" role="tab" aria-selected="false" aria-controls="pricing-bpo" id="tab-bpo"
+                tabindex="-1" onclick="selectRole('bpo')">BPO</button>
+            <button class="role-button" role="tab" aria-selected="false" aria-controls="pricing-student"
+                id="tab-student" tabindex="-1" onclick="selectRole('student')">Student</button>
+            <button class="role-button" role="tab" aria-selected="false" aria-controls="pricing-startup"
+                id="tab-startup" tabindex="-1" onclick="selectRole('startup')">Startup</button>
+            <!-- Added Military tab -->
+            <button class="role-button" role="tab" aria-selected="false" aria-controls="pricing-military"
+                id="tab-military" tabindex="-1" onclick="selectRole('military')">Military</button>
+        </div>
+        <!-- Developer Panel -->
+        <div id="pricing-dev" class="pricing-cards" role="tabpanel" aria-labelledby="tab-dev">
+            <div class="pricing-card">
+                <div class="pricing-plan">Starter</div>
+                <div class="pricing-cost">Free</div>
+                <div class="pricing-details">Limited usage, basic agent access</div>
+            </div>
+            <div class="pricing-card">
+                <div class="pricing-plan">Solo / Indie</div>
+                <div class="pricing-cost">$49/mo</div>
+                <div class="pricing-details">Prompt-to-build, up to 10 builds, CLI &amp; API support</div>
+            </div>
+            <div class="pricing-card">
+                <div class="pricing-plan">Team / Startup</div>
+                <div class="pricing-cost">$199/mo</div>
+                <div class="pricing-details">Unlimited builds, shared memories, Docker profiles</div>
+            </div>
+        </div>
+        <!-- Executive Panel -->
+        <div id="pricing-exec" class="pricing-cards hidden" role="tabpanel" aria-labelledby="tab-exec">
+            <div class="pricing-card">
+                <div class="pricing-plan">Solo Executive</div>
+                <div class="pricing-cost">$199/mo</div>
+                <div class="pricing-details">Journaling, company control, document automation</div>
+            </div>
+            <div class="pricing-card">
+                <div class="pricing-plan">Executive Suite</div>
+                <div class="pricing-cost">$499/mo</div>
+                <div class="pricing-details">Multi-profile, collaboration, priority support</div>
+            </div>
+            <div class="pricing-card">
+                <div class="pricing-plan">Enterprise Custom</div>
+                <div class="pricing-cost">Contact Us</div>
+                <div class="pricing-details">Custom integrations, SLAs, training</div>
+            </div>
+        </div>
+        <!-- BPO Panel -->
+        <div id="pricing-bpo" class="pricing-cards hidden" role="tabpanel" aria-labelledby="tab-bpo">
+            <div class="pricing-card">
+                <div class="pricing-plan">Standard Agent</div>
+                <div class="pricing-cost">$29–$59/mo per user</div>
+                <div class="pricing-details">Task augmentation, basic integrations</div>
+            </div>
+            <div class="pricing-card">
+                <div class="pricing-plan">Advanced Agent</div>
+                <div class="pricing-cost">$99–$149/mo per user</div>
+                <div class="pricing-details">Custom workflows, CRM &amp; API connectors</div>
+            </div>
+            <div class="pricing-card">
+                <div class="pricing-plan">Enterprise Contract</div>
+                <div class="pricing-cost">From $5,000/mo</div>
+                <div class="pricing-details">Unlimited seats, analytics, compliance</div>
+            </div>
+        </div>
+        <!-- Student Panel -->
+        <div id="pricing-student" class="pricing-cards hidden" role="tabpanel" aria-labelledby="tab-student">
+            <div class="pricing-card">
+                <div class="pricing-plan">Student Tier</div>
+                <div class="pricing-cost">$6.99/mo</div>
+                <div class="pricing-details">Learning transcripts, basic tutoring modes</div>
+            </div>
+            <div class="pricing-card">
+                <div class="pricing-plan">Verified Edu+</div>
+                <div class="pricing-cost">$19.99/mo</div>
+                <div class="pricing-details">Course integration, submission modes, priority access</div>
+            </div>
+        </div>
+        <!-- Startup Panel -->
+        <div id="pricing-startup" class="pricing-cards hidden" role="tabpanel" aria-labelledby="tab-startup">
+            <div class="pricing-card">
+                <div class="pricing-plan">Startup Stack</div>
+                <div class="pricing-cost">$199/mo per startup</div>
+                <div class="pricing-details">Complete multi-agent roles, accelerator-friendly</div>
+            </div>
+            <div class="pricing-card">
+                <div class="pricing-plan">Accelerator Partnership</div>
+                <div class="pricing-cost">Custom Pricing</div>
+                <div class="pricing-details">Cohort-wide licenses, training &amp; support</div>
+            </div>
+        </div>
+        <!-- Military Panel added -->
+        <div id="pricing-military" class="pricing-cards hidden" role="tabpanel" aria-labelledby="tab-military">
+            <div class="pricing-card">
+                <div class="pricing-plan">Basic Tactical</div>
+                <div class="pricing-cost">Contact for Pricing</div>
+                <div class="pricing-details">
+                    Secure mission briefings and debrief workflows<br />
+                    Real-time data ingestion and reporting<br />
+                    Role-based access controls and encryption
+                </div>
+            </div>
+            <div class="pricing-card">
+                <div class="pricing-plan">Advanced Operations</div>
+                <div class="pricing-cost">Contact for Pricing</div>
+                <div class="pricing-details">
+                    AI-assisted logistics and resource planning<br />
+                    Integration with classified communication channels<br />
+                    Automated compliance and audit documentation<br />
+                    Multi-agent coordination for joint operations
+                </div>
+            </div>
+            <div class="pricing-card">
+                <div class="pricing-plan">Command Suite</div>
+                <div class="pricing-cost">Custom Quote</div>
+                <div class="pricing-details">
+                    Strategic decision support with predictive analytics<br />
+                    Simulation and training modules via AI agents<br />
+                    Secure multi-level clearance support<br />
+                    Real-time battlefield intelligence summarization<br />
+                    Dedicated 24/7 support and SLA options
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Startup Infra Bundle -->
+    <section id="startup-infra" class="startup-cta" aria-label="Startup infrastructure offer">
+        <h2>Founders don’t need 10 tools. You need 1 Legend OS.</h2>
+        <p>Plug in the full stack agent suite: PM, Dev, Ops, Marketing, Launch — simplified and unified.</p>
+        <button class="btn" type="button" onclick="scrollToSection('pricing')">Run this in your Cohort</button>
+    </section>
+
+    <!-- Founder Spotlight -->
+    <section id="founder-spotlight" class="founder-spotlight" aria-label="About the founder">
+        <h3>Mark Laurence Ong</h3>
+        <p><strong>Founder of Legend OS · Builder of Impact · Hacker of Systems</strong></p>
+        <p>
+            I build systems that build everything else.<br />
+            Architect of the prompt-to-product ecosystem. Shipping code and running orgs, I created Legend OS as a
+            composable intelligence stack for humans.<br />
+            Not another OpenAI wrapper. Not another SaaS brodeck. Agent swarms moving fast, remembering roles, adapting,
+            integrating, and shipping without distractions.<br />
+            Got 1 idea? I’ve got 4 agents.<br />
+            Got shipping goals? Terminal control.<br />
+            Questions? I give code, narrative, and leverage—all through text.
+        </p>
+        <a href="#" target="_blank" rel="noopener noreferrer">Read Full Origin</a> | <a href="https://twitter.com/mark"
+            target="_blank" rel="noopener noreferrer">Follow on X</a>
+    </section>
+
+    <!-- Footer -->
+    <footer role="contentinfo">
+        © 2024 Legend OS — Adaptive Infrastructure for Work, Learning &amp; Creation | All rights reserved
+    </footer>
+
+    <script>
+        // CLI animated sample text lines for hero section
+        const cliLines = [
+            'build apk with login form → ...Done.',
+            'write CEO memo for Q3 → ...Delivered.',
+            'deploy dev-agent for staging → Running.',
+            'render CAD asset batch → Complete.',
+            'log daily journal entry → Saved.'
+        ];
+        let cliIndex = 0;
+        let charIndex = 0;
+        const cliTextElem = document.getElementById('cli-text');
+        function typeWriter() {
+            if (cliIndex >= cliLines.length) cliIndex = 0;
+            const fullText = cliLines[cliIndex];
+            if (charIndex < fullText.length) {
+                cliTextElem.textContent += fullText.charAt(charIndex);
+                charIndex++;
+                setTimeout(typeWriter, 40);
+            } else {
+                setTimeout(() => {
+                    cliTextElem.textContent = '';
+                    charIndex = 0;
+                    cliIndex++;
+                    setTimeout(typeWriter, 800);
+                }, 1500);
+            }
+        }
+        typeWriter();
+
+        // Pricing role selector toggle with military added
+        const roles = ['dev', 'exec', 'bpo', 'student', 'startup', 'military'];
+        function selectRole(role) {
+            roles.forEach(r => {
+                const tab = document.getElementById('tab-' + r);
+                const panel = document.getElementById('pricing-' + r);
+                if (r === role) {
+                    tab.classList.add('active');
+                    tab.setAttribute('aria-selected', 'true');
+                    tab.tabIndex = 0;
+                    panel.classList.remove('hidden');
+                } else {
+                    tab.classList.remove('active');
+                    tab.setAttribute('aria-selected', 'false');
+                    tab.tabIndex = -1;
+                    panel.classList.add('hidden');
+                }
+            });
+        }
+
+        // Scroll to section helper
+        function scrollToSection(id) {
+            const section = document.getElementById(id);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+                section.focus({ preventScroll: true });
+            }
+        }
+    </script>
+
+</body>
+
+</html>
